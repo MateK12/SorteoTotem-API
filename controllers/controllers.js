@@ -29,12 +29,25 @@ controllers.RegisterUser = async (req, res) => {
     FindByDNI = await collection.find({ dni: dni }).toArray();
     if (FindByDNI.length == 0) {
         collection.insertOne(req.body);
-        res.send({ msg: 'Registrado con exito ¡Buena suerte!' });
+        setTimeout(() => {
+            // const { originalname, filename, path } = req.file;
+            // const imagePath = 'http://localhost:3000/uploads' + req.file.filename;
+            // console.log(originalname);
+            // console.log(path);
+            res.send({ msg: 'Registrado con exito ¡Buena suerte!' });
+        }, 2000)
     } else {
         res.send({ msg: 'Ese DNI esta repetido, porfavor ingrese otro' });
 
     }
 
 }
+controllers.GetParticipants = async (req, res) => {
+
+}
+controllers.GetPrices = async (req, res) => {
+
+}
+
 
 module.exports = controllers;

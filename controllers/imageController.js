@@ -15,6 +15,7 @@ const collection = database.collection(dbCollectionName);
 
 Imagecontrollers.UploadImage = async (req, res) => {
     const { originalname, filename, path } = req.file;
+    const imagePath = 'http://localhost:3000/uploads' + req.file.filename;
     console.log(originalname);
     console.log(path);
     res.status(200).json({ message: 'Image uploaded successfully' });
