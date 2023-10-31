@@ -8,12 +8,13 @@ const dbURL = 'mongodb+srv://Sorteo:Sorteo123@cluster0.09tczjf.mongodb.net/Sorte
 
 const client = new MongoClient(dbURL);
 
-const dbname = 'SorteoDB';
-const dbCollectionName = 'users';
 
-const database = client.db(dbname);
-const collection = database.collection(dbCollectionName);
+const database = client.db("SorteoDB");
 
+const collection = database.collection('users');
+const ParticipantsCollection = database.collection('Registro');
+const PrizesCollection = database.collection('Premios');
+const HistoryCollection = database.collection('Historial');
 
 client.connect()
     .then(() => {
@@ -30,10 +31,6 @@ controllers.RegisterUser = async (req, res) => {
     if (FindByDNI.length == 0) {
         collection.insertOne(req.body);
         setTimeout(() => {
-            // const { originalname, filename, path } = req.file;
-            // const imagePath = 'http://localhost:3000/uploads' + req.file.filename;
-            // console.log(originalname);
-            // console.log(path);
             res.send({ msg: 'Registrado con exito ¡Buena suerte!' });
         }, 2000)
     } else {
@@ -43,11 +40,46 @@ controllers.RegisterUser = async (req, res) => {
 
 }
 controllers.GetParticipants = async (req, res) => {
-
+    let GetParticipants = await ParticipantsCollection.find({}).toArray();
+    console.log(GetParticipants);
+    res.send({
+        "msg": "Participants were fetched successfully",
+        "Success": true,
+        "data": GetParticipants
+    })
 }
 controllers.GetPrices = async (req, res) => {
-
+    let GetPrices = await PrizesCollection.find({}).toArray();
+    console.log(GetPrices);
+    res.send({
+        "msg": "The prices were fetched successfully",
+        "Success": true,
+        "data": GetPrices
+    })
 }
 
-
+controllers.ResetCollections = async (req, res) => {
+    const coll = req.params.collection;
+    const collectionToReset = database.collection(coll);
+    let resetCollection = await collectionToReset.deleteMany({});
+    console.log(resetCollection);
+    res.send({ 'msg': 'Collection reseted successfully' })
+}
+controllers.InsertCollections = async (req, res) => {
+    const coll = req.params.collection;
+    const collectionToInsert = database.collection(coll);
+    let InsertCollection = await collectionToInsert.insertMany(req.body)
+    console.log(InsertCollection);
+    res.send({ 'msg': 'data inserted successfully' })
+}
+controllers.SaveHistory = async (req, res) => {
+    let date = new Date();
+    let historyFormater = {
+        'fecha': date.toLocaleDateString(),
+        'resultados': [req.body]
+    }
+    let insertHistory = await HistoryCollection.insertOne(historyFormater);
+    console.log(insertHistory);
+    res.send({ 'msg': 'Resultados del sorteo guardados correctamente' })
+}
 module.exports = controllers;

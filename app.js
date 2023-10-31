@@ -21,12 +21,19 @@ app.use(cors())
 
 app.post('/Register', storage, controllers.RegisterUser);
 
-app.post('/UploadSelfie', Imagecontrollers.UploadImage)
+app.post('/UploadSelfie', Imagecontrollers.UploadImage);
 
-app.get('/getParticipants', controllers.GetParticipants)
+app.get('/getParticipants', controllers.GetParticipants);
 
-app.get('/getPrices', controllers.GetPrices)
+app.get('/getPrizes', controllers.GetPrices);
+
+app.post('/SaveHistory', controllers.SaveHistory)
+
+app.post('/insertCollection/:collection', controllers.InsertCollections)
+
+app.delete('/resetCollection/:collection', controllers.ResetCollections);
+
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`App listening at http://localhost:${port}`);
 });
