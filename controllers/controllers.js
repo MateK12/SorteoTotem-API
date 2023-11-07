@@ -85,7 +85,7 @@ controllers.SaveHistory = async (req, res) => {
 controllers.GetLastRaffle = async (req, res) => {
     let GetRaffle = await HistoryCollection.find({}).toArray();
     console.log(GetRaffle.length);
-    let raffle = GetRaffle[GetRaffle.length].resultados;
+    let raffle = GetRaffle[GetRaffle.length - 1].resultados;
     console.log(raffle);
     res.send({
         "msg": "The raffle was fetched successfully",
