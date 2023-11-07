@@ -82,4 +82,15 @@ controllers.SaveHistory = async (req, res) => {
     console.log(insertHistory);
     res.send({ 'msg': 'Resultados del sorteo guardados correctamente' })
 }
+controllers.GetLastRaffle = async (req, res) => {
+    let GetRaffle = await HistoryCollection.find({}).toArray();
+    console.log(GetRaffle.length);
+    let raffle = GetRaffle[GetRaffle.length].resultados;
+    console.log(raffle);
+    res.send({
+        "msg": "The raffle was fetched successfully",
+        "Success": true,
+        "data": raffle
+    })
+}
 module.exports = controllers;

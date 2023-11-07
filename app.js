@@ -27,6 +27,8 @@ app.get('/getParticipants', controllers.GetParticipants);
 
 app.get('/getPrizes', controllers.GetPrices);
 
+app.get('/getLastRaffle', controllers.GetLastRaffle);
+
 app.post('/SaveHistory', controllers.SaveHistory)
 
 app.post('/insertCollection/:collection', controllers.InsertCollections)
